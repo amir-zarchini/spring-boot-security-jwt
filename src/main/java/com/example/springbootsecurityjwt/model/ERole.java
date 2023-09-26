@@ -1,4 +1,7 @@
 package com.example.springbootsecurityjwt.model;
 
-public class ERole {
+public enum ERole {
+    ROLE_USER,
+    ROLE_MODERATOR,
+    ROLE_ADMIN
 }
