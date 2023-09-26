@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
-public class SignUpRequest {
+public class SignupRequest {
 
     @NotBlank
     @Size(min = 3, max = 20)
