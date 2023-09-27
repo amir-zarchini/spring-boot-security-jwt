@@ -1,15 +1,20 @@
 package com.example.springbootsecurityjwt.controller;
 
+import com.example.springbootsecurityjwt.exception.RefreshTokenException;
 import com.example.springbootsecurityjwt.model.ERole;
+import com.example.springbootsecurityjwt.model.RefreshToken;
 import com.example.springbootsecurityjwt.model.Role;
 import com.example.springbootsecurityjwt.model.User;
 import com.example.springbootsecurityjwt.payload.request.LoginRequest;
+import com.example.springbootsecurityjwt.payload.request.RefreshTokenRequest;
 import com.example.springbootsecurityjwt.payload.request.SignupRequest;
 import com.example.springbootsecurityjwt.payload.response.JwtResponse;
 import com.example.springbootsecurityjwt.payload.response.MessageResponse;
+import com.example.springbootsecurityjwt.payload.response.RefreshTokenResponse;
 import com.example.springbootsecurityjwt.repository.RoleRepository;
 import com.example.springbootsecurityjwt.repository.UserRepository;
 import com.example.springbootsecurityjwt.security.jwt.JwtUtils;
+import com.example.springbootsecurityjwt.security.service.RefreshTokenService;
 import com.example.springbootsecurityjwt.security.service.UserDetailsImpl;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +46,7 @@ public class AuthController {
     private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
     private final JwtUtils jwtUtils;
+    private final RefreshTokenService refreshTokenService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -56,7 +62,10 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
+
         ResponseEntity response = ResponseEntity.ok(new JwtResponse(jwt,
+                refreshToken.getToken(),
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
@@ -119,5 +128,20 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(@Valid @RequestBody RefreshTokenRequest request) {
+        String requestRefreshToken = request.getRefreshToken();
+
+        return refreshTokenService.findByToken(requestRefreshToken)
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    String token = jwtUtils.getUserNameFromJwtToken(user.getUsername());
+                    return ResponseEntity.ok(new RefreshTokenResponse(token, requestRefreshToken));
+                })
+                .orElseThrow(() -> new RefreshTokenException(requestRefreshToken,
+                        "Refresh token is not in database!"));
     }
 }

@@ -3,7 +3,6 @@ package com.example.springbootsecurityjwt.security.service;
 import com.example.springbootsecurityjwt.model.User;
 import com.example.springbootsecurityjwt.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
