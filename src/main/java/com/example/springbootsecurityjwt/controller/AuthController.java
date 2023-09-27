@@ -138,7 +138,7 @@ public class AuthController {
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getUser)
                 .map(user -> {
-                    String token = jwtUtils.getUserNameFromJwtToken(user.getUsername());
+                    String token = jwtUtils.generateTokenFromUsername(user.getUsername());
                     return ResponseEntity.ok(new RefreshTokenResponse(token, requestRefreshToken));
                 })
                 .orElseThrow(() -> new RefreshTokenException(requestRefreshToken,
