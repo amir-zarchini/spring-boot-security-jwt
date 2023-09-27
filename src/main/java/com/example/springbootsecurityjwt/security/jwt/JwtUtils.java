@@ -26,17 +26,8 @@ public class JwtUtils {
     private final static String account2 = "test-account2-87684";
 
     public String generateJwtToken(Authentication authentication) {
-
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-
-        return Jwts.builder()
-                .setSubject((userPrincipal.getUsername()))
-                .claim("account1", getAccount())
-                .claim("account2", account2)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(key(), SignatureAlgorithm.HS256)
-                .compact();
+        return buildToken(userPrincipal.getUsername());
     }
 
     private Object getAccount() {
@@ -53,6 +44,10 @@ public class JwtUtils {
     }
 
     public String generateTokenFromUsername(String username) {
+        return buildToken(username);
+    }
+
+    private String buildToken(String username) {
         return Jwts.builder().setSubject(username).setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .claim("account1", getAccount()).claim("account2", account2)
@@ -73,7 +68,6 @@ public class JwtUtils {
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty: {}", e.getMessage());
         }
-
         return false;
     }
 
