@@ -1,15 +1,10 @@
 package com.example.springbootsecurityjwt.controller;
 
-import com.example.springbootsecurityjwt.exception.RefreshTokenException;
-import com.example.springbootsecurityjwt.model.RefreshToken;
 import com.example.springbootsecurityjwt.payload.request.LoginRequest;
 import com.example.springbootsecurityjwt.payload.request.RefreshTokenRequest;
 import com.example.springbootsecurityjwt.payload.request.SignupRequest;
 import com.example.springbootsecurityjwt.payload.response.JwtResponse;
 import com.example.springbootsecurityjwt.payload.response.MessageResponse;
-import com.example.springbootsecurityjwt.payload.response.RefreshTokenResponse;
-import com.example.springbootsecurityjwt.security.jwt.JwtUtils;
-import com.example.springbootsecurityjwt.security.service.RefreshTokenService;
 import com.example.springbootsecurityjwt.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
