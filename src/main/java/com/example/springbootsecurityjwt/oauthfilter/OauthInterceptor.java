@@ -29,21 +29,28 @@ public class OauthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        executionHandler(handler, StateHandler.PRE_HANDLER, request);
+
+        executionHandler(request, response, handler, StateHandler.PRE_HANDLER);
         return true;
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
-        executionHandler(handler,StateHandler.POST_HANDLER, request);
+    public void postHandle(HttpServletRequest request, HttpServletResponse response,
+                           Object handler, ModelAndView modelAndView) {
+
+        executionHandler(request, response, handler, StateHandler.POST_HANDLER);
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        executionHandler(handler,StateHandler.AFTER_COMPLETION, request);
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
+                                Object handler, Exception ex) {
+
+        executionHandler(request, response, handler, StateHandler.AFTER_COMPLETION);
     }
 
-    private void executionHandler(Object handler, StateHandler stateHandler, HttpServletRequest request) {
+    private void executionHandler(HttpServletRequest request, HttpServletResponse response,
+                                  Object handler, StateHandler stateHandler) {
+
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             Method method = handlerMethod.getMethod();
