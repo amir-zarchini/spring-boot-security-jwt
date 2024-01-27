@@ -3,6 +3,7 @@ package com.example.springbootsecurityjwt.security;
 import com.example.springbootsecurityjwt.outhfilter.OauthInterceptor;
 import com.example.springbootsecurityjwt.security.jwt.AuthEntryPointJwt;
 import com.example.springbootsecurityjwt.security.service.UserDetailsServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,16 +22,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig implements WebMvcConfigurer {
 
-    @Autowired
-    UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
-
-    @Autowired
-    private OauthInterceptor oauthInterceptor;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final AuthEntryPointJwt unauthorizedHandler;
+    private final OauthInterceptor oauthInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
