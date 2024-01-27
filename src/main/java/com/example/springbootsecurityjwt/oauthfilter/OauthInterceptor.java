@@ -1,4 +1,4 @@
-package com.example.springbootsecurityjwt.outhfilter;
+package com.example.springbootsecurityjwt.oauthfilter;
 
 import com.example.springbootsecurityjwt.security.jwt.JwtUtils;
 import com.example.springbootsecurityjwt.security.service.UserDetailsServiceImpl;
@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,7 +1,7 @@
 package com.example.springbootsecurityjwt.controller;
 
-import com.example.springbootsecurityjwt.outhfilter.OauthFilter;
-import com.example.springbootsecurityjwt.outhfilter.StateHandler;
+import com.example.springbootsecurityjwt.oauthfilter.OauthFilter;
+import com.example.springbootsecurityjwt.oauthfilter.StateHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,10 +1,9 @@
 package com.example.springbootsecurityjwt.security;
 
-import com.example.springbootsecurityjwt.outhfilter.OauthInterceptor;
+import com.example.springbootsecurityjwt.oauthfilter.OauthInterceptor;
 import com.example.springbootsecurityjwt.security.jwt.AuthEntryPointJwt;
 import com.example.springbootsecurityjwt.security.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -1,4 +1,4 @@
-package com.example.springbootsecurityjwt.outhfilter;
+package com.example.springbootsecurityjwt.oauthfilter;
 
 public enum StateHandler {
     PRE_HANDLER,
