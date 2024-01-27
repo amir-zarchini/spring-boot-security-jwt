@@ -4,7 +4,6 @@ import com.example.springbootsecurityjwt.exception.RefreshTokenException;
 import com.example.springbootsecurityjwt.model.RefreshToken;
 import com.example.springbootsecurityjwt.repository.RefreshTokenRepository;
 import com.example.springbootsecurityjwt.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -47,8 +46,11 @@ public class RefreshTokenService {
         return token;
     }
 
-    @Transactional
-    public int deleteByUserId(Long userId) {
-        return refreshTokenRepository.deleteByUser(userRepository.findById(userId).get());
+    public RefreshToken checkExistToken(Long userId) {
+        return refreshTokenRepository.findByUserId(userId);
+    }
+
+    public void delete(RefreshToken refreshToken) {
+        refreshTokenRepository.delete(refreshToken);
     }
 }

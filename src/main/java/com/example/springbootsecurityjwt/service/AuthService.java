@@ -48,8 +48,12 @@ public class AuthService {
                         loginRequest.getUsername(),
                         loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        RefreshToken refreshTokenByUser = refreshTokenService.checkExistToken(userDetails.getId());
+        if (refreshTokenByUser != null) {
+            refreshTokenService.delete(refreshTokenByUser);
+        }
+        String jwt = jwtUtils.generateJwtToken(authentication);
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
