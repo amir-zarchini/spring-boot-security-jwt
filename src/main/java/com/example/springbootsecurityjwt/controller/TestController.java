@@ -1,5 +1,7 @@
 package com.example.springbootsecurityjwt.controller;
 
+import com.example.springbootsecurityjwt.log.Loggable;
+import com.example.springbootsecurityjwt.log.StateHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,11 +19,12 @@ public class TestController {
 
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @Loggable(value = StateHandler.POST_HANDLER)
     public String userAccess() {
         return "User Content.";
     }
 
-    @GetMapping("/mod")
+    @GetMapping("/moderator")
     @PreAuthorize("hasRole('MODERATOR')")
     public String moderatorAccess() {
         return "Moderator Board.";
