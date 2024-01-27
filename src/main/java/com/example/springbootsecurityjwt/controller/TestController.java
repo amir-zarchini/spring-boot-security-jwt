@@ -1,7 +1,7 @@
 package com.example.springbootsecurityjwt.controller;
 
-import com.example.springbootsecurityjwt.log.Loggable;
-import com.example.springbootsecurityjwt.log.StateHandler;
+import com.example.springbootsecurityjwt.outhfilter.OauthFilter;
+import com.example.springbootsecurityjwt.outhfilter.StateHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ public class TestController {
 
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    @Loggable(value = StateHandler.POST_HANDLER)
+    @OauthFilter(value = StateHandler.PRE_HANDLER)
     public String userAccess() {
         return "User Content.";
     }

@@ -1,4 +1,4 @@
-package com.example.springbootsecurityjwt.log;
+package com.example.springbootsecurityjwt.outhfilter;
 
 
 import java.lang.annotation.ElementType;
@@ -8,6 +8,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Loggable {
+public @interface OauthFilter {
     StateHandler value();
 }

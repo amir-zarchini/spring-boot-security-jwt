@@ -1,4 +1,4 @@
-package com.example.springbootsecurityjwt.log;
+package com.example.springbootsecurityjwt.outhfilter;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -9,10 +9,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class InterceptorConfig implements WebMvcConfigurer {
 
-    private final LoggerInterceptor logInterceptor;
+    private final OauthInterceptor oauthInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(logInterceptor);
+        registry.addInterceptor(oauthInterceptor);
     }
 }
