@@ -4,6 +4,7 @@ import com.example.springbootsecurityjwt.security.jwt.JwtUtils;
 import com.example.springbootsecurityjwt.security.service.UserDetailsServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,15 +20,13 @@ import org.springframework.web.servlet.ModelAndView;
 import java.lang.reflect.Method;
 
 @Component
+@RequiredArgsConstructor
 public class OauthInterceptor implements HandlerInterceptor {
 
     Logger loggerInterceptor = org.slf4j.LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private JwtUtils jwtUtils;
-
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private final JwtUtils jwtUtils;
+    private final UserDetailsServiceImpl userDetailsService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
