@@ -23,15 +23,9 @@ public class JwtUtils {
     @Value("${app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
-    private final static String account2 = "test-account2-87684";
-
     public String generateJwtToken(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
         return buildToken(userPrincipal.getUsername());
-    }
-
-    private Object getAccount() {
-        return "test-account-15674533";
     }
 
     private Key key() {
@@ -50,7 +44,6 @@ public class JwtUtils {
     private String buildToken(String username) {
         return Jwts.builder().setSubject(username).setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .claim("account1", getAccount()).claim("account2", account2)
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -69,12 +62,5 @@ public class JwtUtils {
             logger.error("JWT claims string is empty: {}", e.getMessage());
         }
         return false;
-    }
-
-    public void getAccountFromToken(String token) {
-        var claims = Jwts.parserBuilder().setSigningKey(key()).build()
-                .parseClaimsJws(token).getBody();
-        System.out.println(claims.get("account1"));
-        System.out.println(claims.get("account2"));
     }
 }
