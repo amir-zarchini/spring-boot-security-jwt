@@ -6,11 +6,28 @@ services:
       MYSQL_DATABASE: securitydb
     ports:
       - "3306:3306"
+    restart: always
+
+  nginx:
+    container_name: provectus-nginx
+    image: nginx:1.13
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
 
   spring-app:
-    build: .
+    restart: always
+    build: ./app
+    working_dir: /app
+    volumes:
+      - ./app:/app
+      - ~/.m2:/root/.m2
     depends_on:
       - mysql-container
+      - nginx
     ports:
       - "8080:8080"
     environment:
