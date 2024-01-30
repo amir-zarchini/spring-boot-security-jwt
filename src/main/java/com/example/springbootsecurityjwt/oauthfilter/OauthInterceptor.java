@@ -1,6 +1,10 @@
 package com.example.springbootsecurityjwt.oauthfilter;
 
+import com.example.springbootsecurityjwt.model.User;
+import com.example.springbootsecurityjwt.model.plan.Consumption;
+import com.example.springbootsecurityjwt.repository.ConsumptionRepository;
 import com.example.springbootsecurityjwt.security.jwt.JwtUtils;
+import com.example.springbootsecurityjwt.security.service.UserDetailsImpl;
 import com.example.springbootsecurityjwt.security.service.UserDetailsServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,6 +30,7 @@ public class OauthInterceptor implements HandlerInterceptor {
 
     private final JwtUtils jwtUtils;
     private final UserDetailsServiceImpl userDetailsService;
+    private final ConsumptionRepository consumptionRepository;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -63,13 +68,8 @@ public class OauthInterceptor implements HandlerInterceptor {
                         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                                 userDetails, null, userDetails.getAuthorities());
-                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-                        String className = handlerMethod.getBeanType().getSimpleName();
-                        String methodName = method.getName();
-                        loggerInterceptor.info("logger_Interceptor:" + stateHandler.toString() +
-                                " execution - Class:" + className + ", Method:" + methodName + ", token is: " + jwt);
+                        UserDetailsImpl userDetailsimpl = (UserDetailsImpl) authentication.getPrincipal();
+                        getConsumptionPlan(userDetailsimpl);
                     }
 
                 } catch (Exception e) {
@@ -79,6 +79,19 @@ public class OauthInterceptor implements HandlerInterceptor {
             }
 
         }
+    }
+
+    private void getConsumptionPlan(UserDetailsImpl user) {
+
+//        try {
+            Consumption consumption = consumptionRepository.findByUserId(user.getId());
+            consumption.setNumberRequest(consumption.getNumberRequest() + 1);
+            consumptionRepository.save(consumption);
+//        } catch (Exception e) {
+//            loggerInterceptor.error("error in fetch request: ", e);
+//        }
+
+
     }
 
     private String parseJwt(HttpServletRequest request) {

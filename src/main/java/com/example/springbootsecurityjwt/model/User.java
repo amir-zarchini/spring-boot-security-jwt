@@ -1,5 +1,7 @@
 package com.example.springbootsecurityjwt.model;
 
+import com.example.springbootsecurityjwt.model.plan.PlanModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -42,5 +44,6 @@ public class User {
     @JoinTable(  name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonIgnore
     private Set<Role> roles = new HashSet<>();
 }

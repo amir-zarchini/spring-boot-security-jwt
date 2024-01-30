@@ -79,11 +79,6 @@
             <artifactId>lombok</artifactId>
             <version>1.18.30</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>io.etcd</groupId>-->
-<!--            <artifactId>jetcd-all</artifactId>-->
-<!--            <version>0.5.11</version>-->
-<!--        </dependency>-->
 
     </dependencies>
 
