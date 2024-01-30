@@ -83,13 +83,13 @@ public class OauthInterceptor implements HandlerInterceptor {
 
     private void getConsumptionPlan(UserDetailsImpl user) {
 
-//        try {
+        try {
             Consumption consumption = consumptionRepository.findByUserId(user.getId());
             consumption.setNumberRequest(consumption.getNumberRequest() + 1);
             consumptionRepository.save(consumption);
-//        } catch (Exception e) {
-//            loggerInterceptor.error("error in fetch request: ", e);
-//        }
+        } catch (Exception e) {
+            loggerInterceptor.error("error in fetch request: ", e);
+        }
 
 
     }
